@@ -4,10 +4,10 @@ import api from "../api"
 const Users = () => {
     const [users, setUsers] = useState(api.users.fetchAll())
 
-    const getQualities = (user) => {
+    const renderQualities = (qualities) => {
         return (
-                user.qualities.map(quality => {
-                    return <span className={'badge m-1 bg-' + quality.color}>{quality.name}</span>
+                qualities.map(quality => {
+                    return <span className={'badge m-1 bg-' + quality.color} key={quality._id}>{quality.name}</span>
                 })
     )}
 
@@ -36,9 +36,9 @@ const Users = () => {
     const renderUsers = () => {
         return users.length !== 0 &&
             users.map(user => (
-                <tr>
-                    <td key = {user._id}>{user.name}</td>
-                    <td>{getQualities(user)}</td>
+                <tr  key = {user._id}>
+                    <td>{user.name}</td>
+                    <td>{renderQualities(user.qualities)}</td>
                     <td>{user.profession.name}</td>
                     <td>{user.completedMeetings}</td>
                     <td>{user.rate + ' / 5'}</td>

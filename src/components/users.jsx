@@ -1,60 +1,11 @@
-import React, { useReducer, useState } from "react";
-import api from "../api"
+import React from "react"
+import User from "./user"
 
-const Users = () => {
-    const [users, setUsers] = useState(api.users.fetchAll())
-
-    const renderQualities = (qualities) => {
-        return (
-                qualities.map(quality => {
-                    return <span className={'badge m-1 bg-' + quality.color} key={quality._id}>{quality.name}</span>
-                })
-    )}
-
-    const handleUserChange = (id) => {
-        setUsers((prevState) => prevState.filter(user => user._id !== id))
-    }
-
-    const renderHeader = () => {
-        let headerText = ''
-        switch (users.length) {
-            case 2: 
-            case 3: 
-            case 4:
-                headerText = 'человека тусанет с тобой сегодня' 
-                break;
-            default: 
-                headerText = 'человек тусанет с тобой сегодня' 
-                break;
-        }
-        console.log(headerText)
-        return (
-            <span className="badge bg-primary">{users.length + ' ' + headerText}</span>
-        )
-    }
-
-    const renderUsers = () => {
-        return users.length !== 0 &&
-            users.map(user => (
-                <tr  key = {user._id}>
-                    <td>{user.name}</td>
-                    <td>{renderQualities(user.qualities)}</td>
-                    <td>{user.profession.name}</td>
-                    <td>{user.completedMeetings}</td>
-                    <td>{user.rate + ' / 5'}</td>
-                    <td><button
-                        className = "btn btn-danger btn-sm m-2"
-                        onClick = {() => {handleUserChange(user._id)}}
-                    >
-                        delete
-                    </button></td>
-                </tr>
-            ))
-    }
+const Users = ({users, ...rest}) => {
 
     return (
         <>
-            <h2>{renderHeader()}</h2>
+        {users.length > 0 &&
             <table className="table">
                 <thead>
                     <tr>
@@ -63,16 +14,22 @@ const Users = () => {
                         <th scope="col">Профессия</th>
                         <th scope="col">Встретился, раз</th>
                         <th scope="col">Оценка</th>
+                        <th scope="col">BOOKMARK</th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {renderUsers()}
+                    {users.map(user => (
+                       <User key={user._id} user={ user } {...rest}/> 
+                    ))}
                 </tbody>
             </table>
+        }
         </>
+
     )
 }
+
     
 
 export default Users

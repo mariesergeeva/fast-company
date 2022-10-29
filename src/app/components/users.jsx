@@ -1,11 +1,22 @@
 import React from "react"
+import { useState } from "react"
+import Pagination from "./pagination"
 import User from "./user"
+import paginate from "../utils/paginate"
 
 const Users = ({users, onDelete, onToggleBookmarks}) => {
+    const count = users.length
+    const pageSize = 4
+    const [currentPage, setCurrentPage] = useState(1)
+    const handlePageChange = (pageIndex) => {
+      console.log('page:', pageIndex);
+      setCurrentPage(pageIndex)
+    }
 
+    const userCrop = paginate(users, currentPage, pageSize) 
     return (
         <>
-        {users.length > 0 &&
+        {count > 0 &&
             <table className="table">
                 <thead>
                     <tr>
@@ -19,7 +30,7 @@ const Users = ({users, onDelete, onToggleBookmarks}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map(user => (
+                    {userCrop.map(user => (
                        <User 
                             key={user._id} 
                             user={ user } 
@@ -29,8 +40,12 @@ const Users = ({users, onDelete, onToggleBookmarks}) => {
                 </tbody>
             </table>
         }
+        <Pagination 
+            itemsCount={count} 
+            pageSize={pageSize} 
+            currentPage={currentPage}
+            onPageChange={handlePageChange}/>
         </>
-
     )
 }
 

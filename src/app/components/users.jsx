@@ -1,7 +1,7 @@
 import React from "react"
 import User from "./user"
 
-const Users = ({users, ...rest}) => {
+const Users = ({users, onDelete, onToggleBookmarks}) => {
 
     return (
         <>
@@ -20,7 +20,11 @@ const Users = ({users, ...rest}) => {
                 </thead>
                 <tbody>
                     {users.map(user => (
-                       <User key={user._id} user={ user } {...rest}/> 
+                       <User 
+                            key={user._id} 
+                            user={ user } 
+                            onDelete={onDelete} 
+                            onToggleBookmarks={onToggleBookmarks}/> 
                     ))}
                 </tbody>
             </table>

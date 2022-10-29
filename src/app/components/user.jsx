@@ -3,25 +3,27 @@ import Qualitie from './qualitie'
 import BookMark from './bookmark'
 
 
-const User = ({ user, ...rest }) => {
-
+const User = ({ user, onDelete, onToggleBookmarks }) => {
+    const qualities = user.qualities
     return (
         <tr key = {user._id}>
                             <td>{user.name}</td>
                             <td>
-                                <Qualitie 
-                                    qualities={user.qualities} 
-/>
+                                {qualities.map(qualitie => {
+                                    return <Qualitie key={qualitie._id} qualitie={qualitie} />                        
+                                })}
                             </td>
                             <td>{user.profession.name}</td>
                             <td>{user.completedMeetings}</td>
                             <td>{user.rate + ' / 5'}</td>
                             <td>
-                                <BookMark status={user} {...rest} />
+                                <BookMark 
+                                    status={user} 
+                                    onToggleBookmarks={onToggleBookmarks} />
                             </td>
                             <td><button
                                 className="btn btn-danger btn-sm m-2"
-                                onClick={() => {rest.onDelete(user._id)}}
+                                onClick={() => {onDelete(user._id)}}
                             >
                                 delete
                             </button></td>

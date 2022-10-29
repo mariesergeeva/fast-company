@@ -9,7 +9,7 @@ const SearchStatus = ({ length }) => {
             case 2: 
             case 3: 
             case 4:
-                headerText = length + ' человека тусанет с тобой сегодня'
+                headerText = length + ' человека тусанут с тобой сегодня'
                 break;
             default: 
                 headerText = length + ' человек тусанет с тобой сегодня' 
